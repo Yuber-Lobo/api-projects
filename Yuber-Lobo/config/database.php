@@ -11,20 +11,9 @@ class Database {
         $password = "root";
 
         try {
-            $dsn = "sqlsrv:Server=$serverName;Database=$databaseName;TrustServerCertificate=true";
-            error_log("Intentando conectar a: $dsn");
-            
-            $this->conn = new PDO($dsn, $username, $password, array(
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-            ));
-            
-            error_log("Conexión a la base de datos establecida con éxito.");
-            
-            // Verificar la conexión con una consulta simple
-            $stmt = $this->conn->query("SELECT @@VERSION AS version");
-            $result = $stmt->fetch();
-            error_log("Versión de SQL Server: " . $result['version']);
+
+              $this->conn = new PDO("sqlsrv:Server=$serverName;Database=$databaseName;TrustServerCertificate=true", $username, $password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         } catch(PDOException $e) {
             error_log("Error de conexión: " . $e->getMessage());
             die(json_encode(array(
