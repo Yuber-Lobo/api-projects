@@ -3,10 +3,19 @@ namespace App\Models;
 
 class DivisionPoliticaModel extends BaseModel {
     public function __construct() {
-        parent::__construct('DivisionPolitica', 'idPais');
+        parent::__construct('DivisionPolitica', 'idPais', ['idDepartamento', 'idCiudad']);
     }
 
-       public function getDepartamentosByPais($idPais) {
+    public function getDivisionPolitica() {
+        $query = "SELECT dp.*, p.Descripcion as Pais, d.Descripcion as Departamento, c.Descripcion as Ciudad
+                  FROM {$this->table} dp
+                  INNER JOIN Paises p ON dp.idPais = p.idPais
+                  INNER JOIN Departamentos d ON dp.idDepartamento = d.idDepartamento
+                  INNER JOIN Ciudades c ON dp.idCiudad = c.idCiudad";
+        return $this->customQuery($query);
+    }
+
+    public function getDepartamentosByPais($idPais) {
         $query = "SELECT D.idDepartamento, D.Descripcion, D.Codigo
                   FROM Departamentos D
                   INNER JOIN DivisionPolitica DP ON D.idDepartamento = DP.idDepartamento

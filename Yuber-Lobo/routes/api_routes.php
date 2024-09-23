@@ -20,7 +20,7 @@ $router->addRoute('POST', '/api/ciudades', 'CiudadController', 'create');
 //Rutas para Division Política
 $router->addRoute('GET', '/api/division-politica', 'DivisionPoliticaController', 'getAll');
 $router->addRoute('GET', '/api/division-politica/{id}', 'DivisionPoliticaController', 'getById');
-//$router->addRoute('GET', '/api/division-politica/search/{column}/{value}', 'DivisionPoliticaController', 'search');
+$router->addRoute('GET', '/api/division-politica/completa', 'DivisionPoliticaController', 'getDivisionPolitica');
 $router->addRoute('GET', '/api/division-politica/pais/{id}/departamentos', 'DivisionPoliticaController', 'getDepartamentosByPais');
 $router->addRoute('GET', '/api/division-politica/pais/{id}/departamentos/search/{term}', 'DivisionPoliticaController', 'searchDepartamentosByPais');
 $router->addRoute('GET', '/api/division-politica/departamento/{id}/ciudades', 'DivisionPoliticaController', 'getCiudadesByDepartamento');
