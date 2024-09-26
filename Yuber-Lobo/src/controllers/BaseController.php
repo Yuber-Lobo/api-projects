@@ -1,5 +1,6 @@
 <?php
 namespace App\Controllers;
+use App\Utils\TimerUtil;
 
 abstract class BaseController {
     protected $model;
@@ -8,13 +9,21 @@ abstract class BaseController {
         $this->model = $model;
     }
 
+       protected function sendResponse($data, $statusCode = 200) {
+        http_response_code($statusCode);
+        $response = [
+            "status" => $statusCode < 400 ? "success" : "error",
+            "data" => $data,
+            "performance" => TimerUtil::getAllMeasurements()
+        ];
+        echo json_encode($response);
+    }
     public function getAll() {
         try {
             $result = $this->model->getAll();
-            echo json_encode($result);
+            $this->sendResponse($result);
         } catch (\Exception $e) {
-            http_response_code(500);
-            echo json_encode(["status" => "error", "message" => $e->getMessage()]);
+            $this->sendResponse(["message" => $e->getMessage()], 500);
         }
     }
 

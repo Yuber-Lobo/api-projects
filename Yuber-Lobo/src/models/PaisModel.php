@@ -1,14 +1,26 @@
 <?php
+
 namespace App\Models;
 
-class PaisModel extends BaseModel {
-    public function __construct() {
+class PaisModel extends BaseModel
+{
+    public function __construct()
+    {
         parent::__construct('Paises', 'idPais');
     }
 
-    // Método personalizado
-    public function getPaisesByCodigoRange($min, $max) {
-        $query = "SELECT * FROM {$this->table} WHERE Codigo BETWEEN :min AND :max";
-        return $this->customQuery($query, ['min' => $min, 'max' => $max]);
+    //Método para obtener los países junto con sus departamentos y ciudades
+    public function getPaisesDepartamentosCiudades()
+    {
+        return $this->callView('VPaisesDepartamentosCiudades');
+    }
+
+    //Método para obtener los países junto con sus departamentos
+    public function getPaisesWithDepartamentos()
+    {
+        return $this->callView('VPaisesDepartamentos', [], [
+            'group_by' => ['idPais', 'Descripcion'],
+            'order_by' => ['Descripcion ASC']
+        ]);
     }
 }

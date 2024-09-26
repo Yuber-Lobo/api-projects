@@ -1,9 +1,13 @@
 <?php
+// cSpell:disable
+
 // Rutas para País
 $router->addRoute('GET', '/api/paises', 'PaisController', 'getAll');
 $router->addRoute('GET', '/api/paises/{id}', 'PaisController', 'getById');
 $router->addRoute('GET', '/api/paises/search/{column}/{value}', 'PaisController', 'search');
-$router->addRoute('POST', '/api/paises', 'PaisController', 'create');
+$router->addRoute('GET', '/api/paises/departamentos', 'PaisController', 'getPaisesWithDepartamentos');
+$router->addRoute('GET', '/api/paises/departamentos/ciudades', 'PaisController', 'getPaisesDepartamentosCiudades');
+// $router->addRoute('POST', '/api/paises', 'PaisController', 'create');
 
 // Rutas para Departamento
 $router->addRoute('GET', '/api/departamentos', 'DepartamentoController', 'getAll');
@@ -34,7 +38,37 @@ $router->addRoute('GET', '/api/clases/{id}', 'ClaseController', 'getById');
 $router->addRoute('GET', '/api/clases/search/{column}/{value}', 'ClaseController', 'search');
 $router->addRoute('POST', '/api/clases', 'ClaseController', 'create');
 
-// Continúa agregando rutas para las demás tablas...
 
-// Ejemplo de ruta para un método personalizado
-$router->addRoute('GET', '/api/paises/codigo-range/{min}/{max}', 'PaisController', 'getPaisesByCodigoRange');
+// Rutas para Destino
+$router->addRoute('GET', '/api/destinos', 'DestinoController', 'getAll');
+$router->addRoute('GET', '/api/destinos/{id}', 'DestinoController', 'getById');
+$router->addRoute('POST', '/api/destinos', 'DestinoController', 'create');
+$router->addRoute('GET', '/api/destinos/clase/{idClase}', 'DestinoController', 'getDestinosByClase');
+
+// Rutas para Destino_códigos
+$router->addRoute('GET', '/api/destino-codigos', 'DestinoCodigosController', 'getAll');
+$router->addRoute('GET', '/api/destino-codigos/{id}', 'DestinoCodigosController', 'getById');
+$router->addRoute('POST', '/api/destino-codigos', 'DestinoCodigosController', 'create');
+$router->addRoute('GET', '/api/destino-codigos/destino/{idDestino}', 'DestinoCodigosController', 'getCodigosByDestino');
+
+// Rutas para UnidadDeNegocio
+$router->addRoute('GET', '/api/unidades-negocio', 'UnidadDeNegocioController', 'getAll');
+$router->addRoute('GET', '/api/unidades-negocio/{id}', 'UnidadDeNegocioController', 'getById');
+$router->addRoute('POST', '/api/unidades-negocio', 'UnidadDeNegocioController', 'create');
+
+// Rutas para Materiales
+$router->addRoute('GET', '/api/materiales', 'MaterialesController', 'getAll');
+$router->addRoute('GET', '/api/materiales/{id}', 'MaterialesController', 'getById');
+$router->addRoute('POST', '/api/materiales', 'MaterialesController', 'create');
+
+// Rutas para Productos
+$router->addRoute('GET', '/api/productos', 'ProductosController', 'getAll');
+$router->addRoute('GET', '/api/productos/{id}', 'ProductosController', 'getById');
+$router->addRoute('POST', '/api/productos', 'ProductosController', 'create');
+$router->addRoute('GET', '/api/productos/material/{idMaterial}', 'ProductosController', 'getProductosByMaterial');
+
+// Rutas para Clasificación
+$router->addRoute('GET', '/api/clasificaciones', 'ClasificacionController', 'getAll');
+$router->addRoute('GET', '/api/clasificaciones/{id}', 'ClasificacionController', 'getById');
+$router->addRoute('POST', '/api/clasificaciones', 'ClasificacionController', 'create');
+$router->addRoute('GET', '/api/clasificaciones/material/{idMaterial}/producto/{idProducto}', 'ClasificacionController', 'getClasificacionesByMaterialAndProducto');

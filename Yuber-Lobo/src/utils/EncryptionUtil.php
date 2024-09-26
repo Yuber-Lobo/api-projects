@@ -5,16 +5,21 @@ class EncryptionUtil {
     private static $apiUrl = "https://trazapp.minex.com.co/bot/Minexdocus/enc.php";
 
     public static function encrypt($data) {
+        TimerUtil::start('encrypt');
         $result = self::callApi($data);
-        return isset($result[0]['encrip']) ? $result[0]['encrip'] : null;
+        TimerUtil::stop('encrypt');
+        return $result;
     }
 
     public static function decrypt($data) {
+        TimerUtil::start('decrypt');
         $result = self::callApi($data);
-        return isset($result[0]['descrip']) ? $result[0]['descrip'] : null;
+        TimerUtil::stop('decrypt');
+        return $result;
     }
 
     private static function callApi($data) {
+        TimerUtil::start('api_call');
         $postData = json_encode(["dato" => $data]);
 
         $ch = curl_init(self::$apiUrl);
@@ -42,11 +47,14 @@ class EncryptionUtil {
         curl_close($ch);
 
         $result = json_decode($response, true);
+        TimerUtil::stop('api_call');
         
-        if (!is_array($result) || !isset($result[0])) {
-            throw new \Exception("Unexpected response format from encryption API: " . $response);
+        if (isset($result[0]['encrip'])) {
+            return $result[0]['encrip'];
+        } elseif (isset($result[0]['descrip'])) {
+            return $result[0]['descrip'];
+        } else {
+            throw new \Exception("Unexpected response from encryption API: " . $response);
         }
-
-        return $result;
     }
 }

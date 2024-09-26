@@ -8,10 +8,21 @@ class PaisController extends BaseController {
         parent::__construct(new PaisModel());
     }
 
-    // Puedes agregar métodos específicos aquí si es necesario
-    public function getPaisesByCodigoRange($min, $max) {
+    public function getPaisesDepartamentosCiudades()
+    {
         try {
-            $result = $this->model->getPaisesByCodigoRange($min, $max);
+            $result = $this->model->getPaisesDepartamentosCiudades();
+            echo json_encode(["status" => "success", "data" => $result]);
+        } catch (\Exception $e) {
+            http_response_code(500);
+            echo json_encode(["status" => "error", "message" => $e->getMessage()]);
+        }
+    }
+
+    public function getPaisesWithDepartamentos()
+    {
+        try {
+            $result = $this->model->getPaisesWithDepartamentos();
             echo json_encode(["status" => "success", "data" => $result]);
         } catch (\Exception $e) {
             http_response_code(500);
