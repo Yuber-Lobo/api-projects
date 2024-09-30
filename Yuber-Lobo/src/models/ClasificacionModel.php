@@ -1,14 +1,25 @@
 <?php
-namespace App\Models;
 
-class ClasificacionModel extends BaseModel {
-    public function __construct() {
-        parent::__construct('Clasificacion', 'idClasificacion', ['idMaterial', 'idProducto', 'UnidadDeNegocio']);
-    }
+namespace src\models;
+require_once __DIR__ . '/BaseModel.php';
 
-    // Método para obtener clasificaciones por material y producto
-    public function getClasificacionesByMaterialAndProducto($idMaterial, $idProducto) {
-        $query = "SELECT * FROM {$this->table} WHERE idMaterial = :idMaterial AND idProducto = :idProducto";
-        return $this->customQuery($query, ['idMaterial' => $idMaterial, 'idProducto' => $idProducto]);
+class ClasificacionModel extends BaseModel
+{
+    protected $endpoint = '/Clasificacion';
+
+    public function getClasificaciones($params = [])
+    {
+        $defaultParams = $this->buildQueryParams(
+            'idClasificacion,Descripcion',
+            [
+                'linkTo' => 'idProducto',
+                'equalTo' => '',
+                'like' => 'Descripcion',
+                'likeValue' => ''
+            ]
+        );
+
+        $mergedParams = array_merge($defaultParams, $params);
+        return $this->get($mergedParams);
     }
 }

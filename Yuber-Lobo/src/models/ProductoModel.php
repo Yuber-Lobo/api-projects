@@ -1,14 +1,23 @@
 <?php
-namespace App\Models;
 
-class ProductoModel extends BaseModel {
-    public function __construct() {
-        parent::__construct('Productos', 'idProducto', ['idMaterial']);
-    }
+namespace src\models;
 
-    // Método para obtener productos por material
-    public function getProductosByMaterial($idMaterial) {
-        $query = "SELECT * FROM {$this->table} WHERE idMaterial = :idMaterial";
-        return $this->customQuery($query, ['idMaterial' => $idMaterial]);
+class ProductoModel extends BaseModel
+{
+    protected $endpoint = '/productos';
+
+    public function getProductos($params = [])
+    {
+        $defaultParams = $this->buildQueryParams(
+            'idProducto,Descripcion',
+            [
+                'linkTo' => 'Descripcion',
+                'like' => ''
+            ],
+            'Descripcion'
+        );
+
+        $mergedParams = array_merge($defaultParams, $params);
+        return $this->get($mergedParams);
     }
 }

@@ -1,25 +1,42 @@
 <?php
-namespace App\Models;
 
-class CiudadModel extends BaseModel {
-    public function __construct() {
-        parent::__construct('Ciudades', 'idCiudad');
+namespace src\models;
+
+class CiudadModel extends BaseModel
+{
+    protected $endpoint = '/ciudades';
+
+    public function getCiudadesConFiltro($params = [])
+    {
+        $defaultParams = $this->buildQueryParams(
+            'idCiudad,Descripcion',
+            [
+                'linkTo' => 'idDepartamento',
+                'equalTo' => '',
+                'like' => 'Descripcion',
+                'likeValue' => ''
+            ],
+            null,
+            20
+        );
+
+        $mergedParams = array_merge($defaultParams, $params);
+        return $this->get($mergedParams);
     }
 
-    // Método para obtener ciudades por la id del departamento
-    public function getCiudadesByDepartamento($idDepartamento) {
-        $query = "SELECT c.* FROM {$this->table} c
-                  INNER JOIN DivisionPolitica dp ON c.idCiudad = dp.idCiudad
-                  WHERE dp.idDepartamento = :idDepartamento";
-        return $this->customQuery($query, ['idDepartamento' => $idDepartamento]);
-    }
+    public function getCiudadesPorDepartamento($params = [])
+    {
+        $defaultParams = $this->buildQueryParams(
+            'idCiudad,Descripcion',
+            [
+                'linkTo' => 'idDepartamento',
+                'equalTo' => ''
+            ],
+            null,
+            20
+        );
 
-    // Método para buscar ciudades por la id del departamento
-    public function searchCiudadesByDepartamento($idDepartamento, $searchTerm) {
-        $query = "SELECT c.* FROM {$this->table} c
-                  INNER JOIN DivisionPolitica dp ON c.idCiudad = dp.idCiudad
-                  WHERE dp.idDepartamento = :idDepartamento
-                  AND c.Descripcion LIKE :searchTerm";
-        return $this->customQuery($query, ['idDepartamento' => $idDepartamento, 'searchTerm' => $searchTerm . '%']);
+        $mergedParams = array_merge($defaultParams, $params);
+        return $this->get($mergedParams);
     }
 }
