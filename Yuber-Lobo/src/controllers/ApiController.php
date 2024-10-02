@@ -2,67 +2,229 @@
 
 namespace src\controllers;
 
-use src\models\ClasificacionModel;
-use src\models\ProductoModel;
-use src\models\CiudadModel;
-use src\models\ProveedorModel;
-use src\models\OrigenModel;
 use src\utils\Response;
+use src\models\EmpresaModel;
+use src\models\QualityParameterReportModel;
+use src\models\OrdenCompraModel;
+use src\models\ProveedorModel;
+use src\models\ClienteModel;
+use src\models\OrigenModel;
+use src\models\PilaModel;
+use src\models\DestinoModel;
+use src\models\ClaseModel;
+use src\models\DepartamentoModel;
+use src\models\CiudadModel;
+use src\models\UnidadNegocioModel;
+use src\models\ProductoModel;
+use src\models\ClasificacionModel;
 
-require_once MODELS_PATH . 'ClasificacionModel.php';
-require_once MODELS_PATH . 'ProductoModel.php';
-require_once MODELS_PATH . 'CiudadModel.php';
+require_once MODELS_PATH . 'QualityParameterReportModel.php';
+require_once MODELS_PATH . 'OrdenCompraModel.php';
+require_once MODELS_PATH . 'EmpresaModel.php';
 require_once MODELS_PATH . 'ProveedorModel.php';
 require_once MODELS_PATH . 'OrigenModel.php';
+require_once MODELS_PATH . 'ClienteModel.php';
+require_once MODELS_PATH . 'PilaModel.php';
+require_once MODELS_PATH . 'DestinoModel.php';
+require_once MODELS_PATH . 'ClaseModel.php';
+require_once MODELS_PATH . 'DepartamentoModel.php';
+require_once MODELS_PATH . 'CiudadModel.php';
+require_once MODELS_PATH . 'UnidadNegocioModel.php';
+require_once MODELS_PATH . 'ProductoModel.php';
+require_once MODELS_PATH . 'ClasificacionModel.php';
 require_once UTILS_PATH . 'Response.php';
+
 
 class ApiController
 {
-    public function clasificacion()
-    {
-        $model = new ClasificacionModel();
-        $data = $model->getClasificaciones($this->getQueryParams());
-        Response::json($data);
-    }
 
-    public function productos()
+    public function empresas()
     {
-        $model = new ProductoModel();
-        $data = $model->getProductos($this->getQueryParams());
-        Response::json($data);
-    }
-
-    public function ciudades()
-    {
-        $model = new CiudadModel();
-        $params = $this->getQueryParams();
-
-        if (isset($params['like']) && isset($params['likeValue'])) {
-            $data = $model->getCiudadesConFiltro($params);
-        } else {
-            $data = $model->getCiudadesPorDepartamento($params);
+        try {
+            $empresaModel = new EmpresaModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $empresaModel->getEmpresas($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
         }
+    }
 
-        Response::json($data);
+    public function qualityParameterReport()
+    {
+        try {
+            $model = new QualityParameterReportModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getReports($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function ordenCompra()
+    {
+        try {
+            $model = new OrdenCompraModel();
+            $numero = $_GET['numero'] ?? '';
+            $data = $model->getOrdenesCompra($numero);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function clientes()
+    {
+        try {
+            $model = new ClienteModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getClientes($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function proveedores()
     {
-        $model = new ProveedorModel();
-        $data = $model->getProveedores($this->getQueryParams());
-        Response::json($data);
+        try {
+            $model = new ProveedorModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getProveedores($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function origenes()
     {
-        $model = new OrigenModel();
-        $params = $this->getQueryParams();
-        $data = $model->getOrigenes($params);
-        Response::json($data);
+        try {
+            $model = new OrigenModel();
+            $idProveedor = $_GET['id'] ?? '';
+            $texto = $_GET['texto'] ?? '';
+
+            if ($texto) {
+                $data = $model->getOrigenesByMinaAndProveedor($texto, $idProveedor);
+            } else {
+                $data = $model->getOrigenesByProveedor($idProveedor);
+            }
+
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    private function getQueryParams()
+    public function pilas()
     {
-        return $_GET;
+        try {
+            $model = new PilaModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getPilas($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function destinos()
+    {
+        try {
+            $model = new DestinoModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getDestinos($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function clases()
+    {
+        try {
+            $model = new ClaseModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getClases($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function departamentos()
+    {
+        try {
+            $model = new DepartamentoModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getDepartamentos($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function ciudades()
+    {
+        try {
+            $model = new CiudadModel();
+            $idDepartamento = $_GET['id'] ?? '';
+            $texto = $_GET['texto'] ?? '';
+
+            if ($texto) {
+                $data = $model->getCiudadesPorDescripcionYDepartamento($texto, $idDepartamento);
+            } else {
+                $data = $model->getCiudadesPorDepartamento($idDepartamento);
+            }
+
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function unidadesNegocio()
+    {
+        try {
+            $model = new UnidadNegocioModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getUnidadesNegocio($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function productos()
+    {
+        try {
+            $model = new ProductoModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getProductos($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function clasificaciones()
+    {
+        try {
+            $model = new ClasificacionModel();
+            $idProducto = $_GET['id'] ?? '';
+            $texto = $_GET['texto'] ?? '';
+
+            if ($texto && $idProducto) {
+                $data = $model->getClasificacionesPorDescripcionYProducto($texto, $idProducto);
+            }else {
+                $data = $model->getClasificacionesPorProducto($idProducto);
+            }
+
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['error' => $e->getMessage()], 500);
+        }
     }
 }

@@ -1,26 +1,29 @@
 <?php
 
 namespace src\models;
-
 require_once __DIR__ . '/BaseModel.php';
 
 class OrigenModel extends BaseModel
 {
-    protected $endpoint = '/origenes';
+    protected $endpoint = '/Origenes';
 
-    public function getOrigenes($params = [])
+    public function getOrigenesByProveedor($idProveedor)
     {
-        $defaultParams = $this->buildQueryParams(
-            'idOrigen,Mina',
-            [
-                'linkTo' => 'idProveedor',
-                'equalTo' => $params['idProveedor'] ?? '',
-                'like' => 'Mina',
-                'likeValue' => $params['likeValue'] ?? ''
-            ]
-        );
+        $params = [
+            'select' => 'idOrigen,Mina',
+            'linkTo' => 'idProveedor',
+            'equalTo' => $idProveedor
+        ];
+        return $this->get($params);
+    }
 
-        $mergedParams = array_merge($defaultParams, $params);
-        return $this->get($mergedParams);
+    public function getOrigenesByMinaAndProveedor($texto, $idProveedor)
+    {
+        $params = [
+            'select' => 'idOrigen,Mina',
+            'linkTo' => 'Mina,idProveedor',
+            'like' => $texto . '_' . $idProveedor
+        ];
+        return $this->get($params);
     }
 }

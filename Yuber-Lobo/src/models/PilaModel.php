@@ -3,14 +3,14 @@
 namespace src\models;
 require_once __DIR__ . '/BaseModel.php';
 
-class ClaseModel extends BaseModel
+class PilaModel extends BaseModel
 {
-    protected $endpoint = '/clase';
+    protected $endpoint = '/pilas';
 
-    public function getClases($texto)
+    public function getPilas($texto)
     {
         $params = [
-            'select' => 'idClase,Descripcion',
+            'select' => '*',
             'linkTo' => 'Descripcion',
             'like' => $texto,
             'orderBy' => 'Descripcion',

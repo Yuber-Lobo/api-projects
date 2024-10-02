@@ -7,19 +7,23 @@ class ClasificacionModel extends BaseModel
 {
     protected $endpoint = '/Clasificacion';
 
-    public function getClasificaciones($params = [])
+    public function getClasificacionesPorProducto($idProducto)
     {
-        $defaultParams = $this->buildQueryParams(
-            'idClasificacion,Descripcion',
-            [
-                'linkTo' => 'idProducto',
-                'equalTo' => '',
-                'like' => 'Descripcion',
-                'likeValue' => ''
-            ]
-        );
+        $params = [
+            'select' => 'idClasificacion,Descripcion',
+            'linkTo' => 'idProducto',
+            'equalTo' => $idProducto
+        ];
+        return $this->get($params);
+    }
 
-        $mergedParams = array_merge($defaultParams, $params);
-        return $this->get($mergedParams);
+    public function getClasificacionesPorDescripcionYProducto($texto, $idProducto)
+    {
+        $params = [
+            'select' => 'idClasificacion,Descripcion',
+            'linkTo' => 'Descripcion,idProducto',
+            'like' => $texto . '_' . $idProducto
+        ];
+        return $this->get($params);
     }
 }

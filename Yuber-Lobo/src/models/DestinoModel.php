@@ -1,19 +1,22 @@
 <?php
-namespace App\Models;
 
-class DestinoModel extends BaseModel {
-    public function __construct() {
-        parent::__construct('Destino', 'idDestino', ['idClase', 'idProveedor', 'idPais', 'idDepartamento', 'idCiudad']);
+namespace src\models;
+require_once __DIR__ . '/BaseModel.php';
+
+class DestinoModel extends BaseModel
+{
+    protected $endpoint = '/destino';
+
+    public function getDestinos($texto)
+    {
+        $params = [
+            'select' => '*',
+            'linkTo' => 'Descripcion',
+            'like' => $texto,
+            'orderBy' => 'Descripcion',
+            'orderMode' => 'ASC',
+            'top' => 20
+        ];
+        return $this->get($params);
     }
-
-    // Método para obtener las ciudades por el id del departamento
-
-    // Método para obtener destinos por clase
-    public function getDestinosByClase($idClase) {
-        $query = "SELECT * FROM {$this->table} WHERE idClase = :idClase";
-        return $this->customQuery($query, ['idClase' => $idClase]);
-    }
-
-
-
 }

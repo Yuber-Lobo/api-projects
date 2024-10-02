@@ -1,42 +1,31 @@
 <?php
 
 namespace src\models;
+require_once __DIR__ . '/BaseModel.php';
 
 class CiudadModel extends BaseModel
 {
-    protected $endpoint = '/ciudades';
+    protected $endpoint = '/vCiudades';
 
-    public function getCiudadesConFiltro($params = [])
+    public function getCiudadesPorDepartamento($idDepartamento)
     {
-        $defaultParams = $this->buildQueryParams(
-            'idCiudad,Descripcion',
-            [
-                'linkTo' => 'idDepartamento',
-                'equalTo' => '',
-                'like' => 'Descripcion',
-                'likeValue' => ''
-            ],
-            null,
-            20
-        );
-
-        $mergedParams = array_merge($defaultParams, $params);
-        return $this->get($mergedParams);
+        $params = [
+            'select' => 'idCiudad,Descripcion',
+            'linkTo' => 'idDepartamento',
+            'equalTo' => $idDepartamento,
+            'top' => 20
+        ];
+        return $this->get($params);
     }
 
-    public function getCiudadesPorDepartamento($params = [])
+    public function getCiudadesPorDescripcionYDepartamento($texto, $idDepartamento)
     {
-        $defaultParams = $this->buildQueryParams(
-            'idCiudad,Descripcion',
-            [
-                'linkTo' => 'idDepartamento',
-                'equalTo' => ''
-            ],
-            null,
-            20
-        );
-
-        $mergedParams = array_merge($defaultParams, $params);
-        return $this->get($mergedParams);
+        $params = [
+            'select' => 'idCiudad,Descripcion',
+            'linkTo' => 'Descripcion,idDepartamento',
+            'like' => $texto . '_' . $idDepartamento,
+            'top' => 20
+        ];
+        return $this->get($params);
     }
 }

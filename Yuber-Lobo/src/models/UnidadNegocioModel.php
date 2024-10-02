@@ -3,14 +3,14 @@
 namespace src\models;
 require_once __DIR__ . '/BaseModel.php';
 
-class ClaseModel extends BaseModel
+class UnidadNegocioModel extends BaseModel
 {
-    protected $endpoint = '/clase';
+    protected $endpoint = '/unidaddenegocio';
 
-    public function getClases($texto)
+    public function getUnidadesNegocio($texto)
     {
         $params = [
-            'select' => 'idClase,Descripcion',
+            'select' => 'idUnidadNegocio,Descripcion',
             'linkTo' => 'Descripcion',
             'like' => $texto,
             'orderBy' => 'Descripcion',

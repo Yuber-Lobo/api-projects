@@ -25,9 +25,9 @@ class Router
                 require_once $controllerFile;
                 $controllerClass = "\\src\\controllers\\" . $controller;
                 $controllerInstance = new $controllerClass();
-                $controllerInstance->$action();
+                $controllerInstance->$action();  // Llamada sin argumentos
             } else {
-                throw new Exception("Controller not found: $controller");
+                throw new \Exception("Controller not found: $controller");
             }
         } else {
             // Handle 404

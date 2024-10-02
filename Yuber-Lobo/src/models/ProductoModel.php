@@ -1,23 +1,21 @@
 <?php
 
 namespace src\models;
+require_once __DIR__ . '/BaseModel.php';
 
 class ProductoModel extends BaseModel
 {
     protected $endpoint = '/productos';
 
-    public function getProductos($params = [])
+    public function getProductos($texto)
     {
-        $defaultParams = $this->buildQueryParams(
-            'idProducto,Descripcion',
-            [
-                'linkTo' => 'Descripcion',
-                'like' => ''
-            ],
-            'Descripcion'
-        );
-
-        $mergedParams = array_merge($defaultParams, $params);
-        return $this->get($mergedParams);
+        $params = [
+            'select' => 'idProducto,Descripcion',
+            'linkTo' => 'Descripcion',
+            'like' => $texto,
+            'orderBy' => 'Descripcion',
+            'orderMode' => 'ASC'
+        ];
+        return $this->get($params);
     }
 }

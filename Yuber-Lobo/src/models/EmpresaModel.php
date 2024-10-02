@@ -6,21 +6,18 @@ require_once __DIR__ . '/BaseModel.php';
 
 class EmpresaModel extends BaseModel
 {
-    protected $endpoint = '/empresa';
+    protected $endpoint = '/Proveedores';
 
-    public function getEmpresa($params = [])
+    public function getEmpresas($texto)
     {
-        $defaultParams = $this->buildQueryParams(
-            'idProveedor,RazonSocial',
-            [
-                'linkTo' => 'idProveedor',
-                'equalTo' => $params['idProveedor'] ?? '',
-                'like' => 'Mina',
-                'likeValue' => $params['likeValue'] ?? ''
-            ]
-        );
-
-        $mergedParams = array_merge($defaultParams, $params);
-        return $this->get($mergedParams);
+        $params = [
+            'select' => 'idProveedor,RazonSocial',
+            'linkTo' => 'RazonSocial,Empresa',
+            'like' => $texto . '_1' ,
+            'orderBy' => 'RazonSocial',
+            'orderMode' => 'ASC',
+            'top' => 20
+        ];
+        return $this->get($params);
     }
 }
