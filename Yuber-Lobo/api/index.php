@@ -7,8 +7,9 @@ use src\utils\Router;
 
 $router = new Router();
 
-$router->addRoute('GET', '/api/empresas', 'ApiController@empresas');
 $router->addRoute('GET', '/api/qualityParameterReport', 'ApiController@qualityParameterReport');
+$router->addRoute('GET', '/api/advancedQualityParameterReport', 'ApiController@advancedQualityParameterReport');
+$router->addRoute('GET', '/api/empresas', 'ApiController@empresas');
 $router->addRoute('GET', '/api/proveedores', 'ApiController@proveedores');
 $router->addRoute('GET', '/api/origenes', 'ApiController@origenes');
 $router->addRoute('GET', '/api/clientes', 'ApiController@clientes');

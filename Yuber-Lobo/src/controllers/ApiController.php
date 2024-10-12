@@ -46,7 +46,7 @@ class ApiController
             $data = $empresaModel->getEmpresas($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -58,7 +58,26 @@ class ApiController
             $data = $model->getReports($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+        }
+    }
+
+    public function advancedQualityParameterReport()
+    {
+        try {
+            $model = new QualityParameterReportModel();
+
+            $filters = array_filter($_GET, function ($value) {
+                return $value !== '' && $value !== null;
+            });
+
+            // Removemos 'fuente' si está presente en los filtros, ya que lo manejamos por separado
+            unset($filters['fuente']);
+
+            $data = $model->getAdvancedReports($filters);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -66,11 +85,11 @@ class ApiController
     {
         try {
             $model = new OrdenCompraModel();
-            $numero = $_GET['numero'] ?? '';
-            $data = $model->getOrdenesCompra($numero);
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getOrdenesCompra($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -82,7 +101,7 @@ class ApiController
             $data = $model->getClientes($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -94,7 +113,7 @@ class ApiController
             $data = $model->getProveedores($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -113,7 +132,7 @@ class ApiController
 
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -125,7 +144,7 @@ class ApiController
             $data = $model->getPilas($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -137,7 +156,7 @@ class ApiController
             $data = $model->getDestinos($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -149,7 +168,7 @@ class ApiController
             $data = $model->getClases($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -161,7 +180,7 @@ class ApiController
             $data = $model->getDepartamentos($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -180,7 +199,7 @@ class ApiController
 
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -193,7 +212,7 @@ class ApiController
             $data = $model->getUnidadesNegocio($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -205,7 +224,7 @@ class ApiController
             $data = $model->getProductos($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 
@@ -218,13 +237,13 @@ class ApiController
 
             if ($texto && $idProducto) {
                 $data = $model->getClasificacionesPorDescripcionYProducto($texto, $idProducto);
-            }else {
+            } else {
                 $data = $model->getClasificacionesPorProducto($idProducto);
             }
 
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['error' => $e->getMessage()], 500);
+            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
         }
     }
 }

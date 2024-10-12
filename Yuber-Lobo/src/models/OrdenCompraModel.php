@@ -7,12 +7,12 @@ class OrdenCompraModel extends BaseModel
 {
     protected $endpoint = '/OrdenCompra';
 
-    public function getOrdenesCompra($numero)
+    public function getOrdenesCompra($texto)
     {
         $params = [
             'select' => 'numeroTransaccion,OrdenCompra',
             'linkTo' => 'OrdenCompra',
-            'like' => $numero,
+            'like' => $texto,
             'orderBy' => 'numeroTransaccion',
             'orderMode' => 'ASC'
         ];
