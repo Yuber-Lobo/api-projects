@@ -11,7 +11,7 @@ class ApiClient
             $url .= (strpos($url, '?') === false ? '?' : '&') . http_build_query($params);
         }
 
-        error_log("Requesting URL: " . $url);
+        // error_log("Requesting URL: " . $url);
 
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -26,8 +26,8 @@ class ApiClient
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
 
-        error_log("Response HTTP Code: " . $httpCode);
-        error_log("Response Body: " . substr($response, 0, 1000)); // Log solo los primeros 1000 caracteres
+        // error_log("Response HTTP Code: " . $httpCode);
+        // error_log("Response Body: " . substr($response, 0, 1000)); 
 
         if ($httpCode >= 400) {
             throw new \Exception("HTTP Error: " . $httpCode);

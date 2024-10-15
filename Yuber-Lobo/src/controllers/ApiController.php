@@ -3,8 +3,8 @@
 namespace src\controllers;
 
 use src\utils\Response;
-use src\models\EmpresaModel;
 use src\models\QualityParameterReportModel;
+use src\models\EmpresaModel;
 use src\models\OrdenCompraModel;
 use src\models\ProveedorModel;
 use src\models\ClienteModel;
@@ -18,22 +18,12 @@ use src\models\UnidadNegocioModel;
 use src\models\ProductoModel;
 use src\models\ClasificacionModel;
 
-require_once MODELS_PATH . 'QualityParameterReportModel.php';
-require_once MODELS_PATH . 'OrdenCompraModel.php';
-require_once MODELS_PATH . 'EmpresaModel.php';
-require_once MODELS_PATH . 'ProveedorModel.php';
-require_once MODELS_PATH . 'OrigenModel.php';
-require_once MODELS_PATH . 'ClienteModel.php';
-require_once MODELS_PATH . 'PilaModel.php';
-require_once MODELS_PATH . 'DestinoModel.php';
-require_once MODELS_PATH . 'ClaseModel.php';
-require_once MODELS_PATH . 'DepartamentoModel.php';
-require_once MODELS_PATH . 'CiudadModel.php';
-require_once MODELS_PATH . 'UnidadNegocioModel.php';
-require_once MODELS_PATH . 'ProductoModel.php';
-require_once MODELS_PATH . 'ClasificacionModel.php';
-require_once UTILS_PATH . 'Response.php';
+$modelsPath = MODELS_PATH . '*.php';
+foreach (glob($modelsPath) as $filename) {
+    require_once $filename;
+}
 
+require_once UTILS_PATH . 'Response.php';
 
 class ApiController
 {
@@ -46,7 +36,7 @@ class ApiController
             $data = $empresaModel->getEmpresas($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -58,7 +48,7 @@ class ApiController
             $data = $model->getReports($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -77,7 +67,7 @@ class ApiController
             $data = $model->getAdvancedReports($filters);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -89,7 +79,7 @@ class ApiController
             $data = $model->getOrdenesCompra($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -101,7 +91,7 @@ class ApiController
             $data = $model->getClientes($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -113,7 +103,7 @@ class ApiController
             $data = $model->getProveedores($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -132,7 +122,7 @@ class ApiController
 
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -144,7 +134,7 @@ class ApiController
             $data = $model->getPilas($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -156,7 +146,7 @@ class ApiController
             $data = $model->getDestinos($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -168,7 +158,7 @@ class ApiController
             $data = $model->getClases($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -180,7 +170,7 @@ class ApiController
             $data = $model->getDepartamentos($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -199,7 +189,7 @@ class ApiController
 
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -212,7 +202,7 @@ class ApiController
             $data = $model->getUnidadesNegocio($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -224,7 +214,7 @@ class ApiController
             $data = $model->getProductos($texto);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
@@ -243,7 +233,7 @@ class ApiController
 
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  '"Not found"'], 404);
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 }
