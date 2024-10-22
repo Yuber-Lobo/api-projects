@@ -16,7 +16,10 @@ use src\models\DepartamentoModel;
 use src\models\CiudadModel;
 use src\models\UnidadNegocioModel;
 use src\models\ProductoModel;
+use src\models\TipoReporteModel;
 use src\models\ClasificacionModel;
+use src\models\FuenteModel;
+use src\models\ReglaModel;
 
 $modelsPath = MODELS_PATH . '*.php';
 foreach (glob($modelsPath) as $filename) {
@@ -39,20 +42,30 @@ class ApiController
             Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
-
-    public function qualityParameterReport()
+    public function reglas()
     {
         try {
-            $model = new QualityParameterReportModel();
+            $model = new ReglaModel();
             $texto = $_GET['texto'] ?? '';
-            $data = $model->getReports($texto);
+            $data = $model->getReglas($texto);
             Response::json($data);
         } catch (\Exception $e) {
             Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
 
-    public function advancedQualityParameterReport()
+    public function fuente()
+    {
+        try {
+            $model = new FuenteModel();
+            $data = $model->getFuentes();
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['status' => 404, 'results' => 'Not found'], 404);
+        }
+    }
+
+    public function qualityParameterReport()
     {
         try {
             $model = new QualityParameterReportModel();
@@ -61,15 +74,50 @@ class ApiController
                 return $value !== '' && $value !== null;
             });
 
-            // Removemos 'fuente' si está presente en los filtros, ya que lo manejamos por separado
-            unset($filters['fuente']);
+            if (empty($filters)) {
+                $data = $model->getReports();
+            } else {
+                // Removemos 'fuente' si está presente en los filtros, ya que lo manejamos por separado
+                // unset($filters['fuente']);
+                $data = $model->getAdvancedReports($filters);
+            }
 
-            $data = $model->getAdvancedReports($filters);
             Response::json($data);
         } catch (\Exception $e) {
-            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
+            Response::json(['status' => 404, 'results' => 'Not found'], 404);
         }
     }
+
+    public function createQualityParameterReport()
+    {
+        try {
+            $model = new QualityParameterReportModel();
+            $data = json_decode(file_get_contents('php://input'), true);
+            $response = $model->createReport($data);
+            Response::json($response);
+        } catch (\Exception $e) {
+            Response::json(['status' => 404, 'results' => 'Not found'], 404);
+        }
+    }
+
+    // public function advancedQualityParameterReport()
+    // {
+    //     try {
+    //         $model = new QualityParameterReportModel();
+
+    //         $filters = array_filter($_GET, function ($value) {
+    //             return $value !== '' && $value !== null;
+    //         });
+
+    //         // Removemos 'fuente' si está presente en los filtros, ya que lo manejamos por separado
+    //         unset($filters['fuente']);
+
+    //         $data = $model->getAdvancedReports($filters);
+    //         Response::json($data);
+    //     } catch (\Exception $e) {
+    //         Response::json(['status' => 404, 'results' =>  'Not found'], 404);
+    //     }
+    // }
 
     public function ordenCompra()
     {
@@ -234,6 +282,17 @@ class ApiController
             Response::json($data);
         } catch (\Exception $e) {
             Response::json(['status' => 404, 'results' =>  'Not found'], 404);
+        }
+    }
+
+    public function tipoReporte()
+    {
+        try {
+            $model = new TipoReporteModel();
+            $data = $model->getTipoReporte();
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['status' => 404, 'results' => 'Not found'], 404);
         }
     }
 }

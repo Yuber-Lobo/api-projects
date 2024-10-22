@@ -7,8 +7,10 @@ use src\utils\Router;
 
 $router = new Router();
 
+$router->addRoute('GET', '/api/reglas', 'ApiController@reglas');
 $router->addRoute('GET', '/api/qualityParameterReport', 'ApiController@qualityParameterReport');
-$router->addRoute('GET', '/api/advancedQualityParameterReport', 'ApiController@advancedQualityParameterReport');
+$router->addRoute('POST', '/api/qualityParameterReport', 'ApiController@createQualityParameterReport'); 
+$router->addRoute('GET', '/api/fuente', 'ApiController@fuente');
 $router->addRoute('GET', '/api/empresas', 'ApiController@empresas');
 $router->addRoute('GET', '/api/proveedores', 'ApiController@proveedores');
 $router->addRoute('GET', '/api/origenes', 'ApiController@origenes');
@@ -22,5 +24,6 @@ $router->addRoute('GET', '/api/productos', 'ApiController@productos');
 $router->addRoute('GET', '/api/clasificaciones', 'ApiController@clasificaciones');
 $router->addRoute('GET', '/api/destinos', 'ApiController@destinos');
 $router->addRoute('GET', '/api/ordenCompra', 'ApiController@ordenCompra');
+$router->addRoute('GET', '/api/tipoReporte', 'ApiController@tipoReporte');
 
 $router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

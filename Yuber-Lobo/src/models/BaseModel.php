@@ -14,4 +14,9 @@ abstract class BaseModel
     {
         return ApiClient::get($this->endpoint, $params);
     }
+
+    public function post($data = [])
+    {
+        return ApiClient::post($this->endpoint, $data);
+    }
 }

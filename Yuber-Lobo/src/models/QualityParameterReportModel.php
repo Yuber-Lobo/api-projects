@@ -1,19 +1,21 @@
 <?php
 
 namespace src\models;
+use src\utils\ApiClient;
+
+require_once __DIR__ . '/../utils/ApiClient.php';
 require_once __DIR__ . '/BaseModel.php';
 
 class QualityParameterReportModel extends BaseModel
 {
     protected $endpoint = '/QualityParameterReport';
 
-    public function getReports($texto)
+    public function getReports()
     {
         $params = [
             'select' => '*',
-            'linkTo' => 'Descripcion,fuente',
-            'like' =>  $texto . '_R',
-            'top' => 20
+            'linkTo' => 'fuente',
+            'equalTo' => 'R',
         ];
         return $this->get($params);
     }
@@ -38,5 +40,19 @@ class QualityParameterReportModel extends BaseModel
         ];
 
         return $this->get($params);
+    }
+
+    public function createReport($data)
+    {
+        $postEndpoint = '/quality_parameter_report';
+        $jsonBody = json_encode($data);
+        $params = [
+            'body' => $jsonBody,
+            'headers' => [
+                'Content-Type' => 'application/json'
+            ]
+        ];
+
+        return ApiClient::post($postEndpoint, $params);
     }
 }
