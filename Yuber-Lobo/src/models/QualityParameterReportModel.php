@@ -44,7 +44,7 @@ class QualityParameterReportModel extends BaseModel
 
     public function createReport($data)
     {
-        $postEndpoint = '/quality_parameter_report';
+        $postEndpoint = '/sp/SAVE_QualityParameterReport';
         $jsonBody = json_encode($data);
         $params = [
             'body' => $jsonBody,

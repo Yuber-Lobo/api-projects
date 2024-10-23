@@ -45,7 +45,6 @@ class ApiClient
     public static function post($endpoint, $data = [])
     {
         $url = API_BASE_URL . $endpoint;
-
         $ch = curl_init($url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
