@@ -20,6 +20,7 @@ use src\models\TipoReporteModel;
 use src\models\ClasificacionModel;
 use src\models\FuenteModel;
 use src\models\ReglaModel;
+use src\models\TransaccionModel;
 
 $modelsPath = MODELS_PATH . '*.php';
 foreach (glob($modelsPath) as $filename) {
@@ -100,24 +101,17 @@ class ApiController
         }
     }
 
-    // public function advancedQualityParameterReport()
-    // {
-    //     try {
-    //         $model = new QualityParameterReportModel();
-
-    //         $filters = array_filter($_GET, function ($value) {
-    //             return $value !== '' && $value !== null;
-    //         });
-
-    //         // Removemos 'fuente' si está presente en los filtros, ya que lo manejamos por separado
-    //         unset($filters['fuente']);
-
-    //         $data = $model->getAdvancedReports($filters);
-    //         Response::json($data);
-    //     } catch (\Exception $e) {
-    //         Response::json(['status' => 404, 'results' =>  'Not found'], 404);
-    //     }
-    // }
+    public function transacciones()
+    {
+        try {
+            $model = new TransaccionModel();
+            $texto = $_GET['texto'] ?? '';
+            $data = $model->getTransacciones($texto);
+            Response::json($data);
+        } catch (\Exception $e) {
+            Response::json(['status' => 404, 'results' =>  'Not found'], 404);
+        }
+    }
 
     public function ordenCompra()
     {

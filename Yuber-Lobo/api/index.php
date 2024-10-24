@@ -10,6 +10,7 @@ $router = new Router();
 $router->addRoute('GET', '/api/reglas', 'ApiController@reglas');
 $router->addRoute('GET', '/api/qualityParameterReport', 'ApiController@qualityParameterReport');
 $router->addRoute('POST', '/api/qualityParameterReport', 'ApiController@createQualityParameterReport'); 
+$router->addRoute('GET', '/api/transaccion', 'ApiController@transacciones');
 $router->addRoute('GET', '/api/fuente', 'ApiController@fuente');
 $router->addRoute('GET', '/api/empresas', 'ApiController@empresas');
 $router->addRoute('GET', '/api/proveedores', 'ApiController@proveedores');
