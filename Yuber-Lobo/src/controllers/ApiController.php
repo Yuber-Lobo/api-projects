@@ -21,6 +21,8 @@ use src\models\ClasificacionModel;
 use src\models\FuenteModel;
 use src\models\ReglaModel;
 use src\models\TransaccionModel;
+use src\models\ParametrosAgrupacionModel;
+use src\models\RestriccionBolsasCalidadModel;
 
 $modelsPath = MODELS_PATH . '*.php';
 foreach (glob($modelsPath) as $filename) {
@@ -43,6 +45,19 @@ class ApiController
             Response::json(['status' => 404, 'results' =>  'Not found'], 404);
         }
     }
+
+    public function createRestriccionBolsasCalidad()
+    {
+        try {
+            $model = new RestriccionBolsasCalidadModel();
+            $data = json_decode(file_get_contents('php://input'), true);
+            $response = $model->createRestriccionBolsasCalidad($data);
+            Response::json($response);
+        } catch (\Exception $e) {
+            Response::json(['status' => 404, 'results' => 'Not found'], 404);
+        }
+    }
+
     public function reglas()
     {
         try {
@@ -96,6 +111,17 @@ class ApiController
             $data = json_decode(file_get_contents('php://input'), true);
             $response = $model->createReport($data);
             Response::json($response);
+        } catch (\Exception $e) {
+            Response::json(['status' => 404, 'results' => 'Not found'], 404);
+        }
+    }
+
+    public function parametrosAgrupacion()
+    {
+        try {
+            $model = new ParametrosAgrupacionModel();
+            $data = $model->getParametrosAgrupacion();
+            Response::json($data);
         } catch (\Exception $e) {
             Response::json(['status' => 404, 'results' => 'Not found'], 404);
         }
