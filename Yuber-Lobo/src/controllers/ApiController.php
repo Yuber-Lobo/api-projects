@@ -38,7 +38,7 @@ class ApiController
     {
         try {
             $empresaModel = new EmpresaModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $empresaModel->getEmpresas($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -62,7 +62,7 @@ class ApiController
     {
         try {
             $model = new ReglaModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getReglas($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -93,8 +93,6 @@ class ApiController
             if (empty($filters)) {
                 $data = $model->getReports();
             } else {
-                // Removemos 'fuente' si está presente en los filtros, ya que lo manejamos por separado
-                // unset($filters['fuente']);
                 $data = $model->getAdvancedReports($filters);
             }
 
@@ -131,7 +129,7 @@ class ApiController
     {
         try {
             $model = new TransaccionModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getTransacciones($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -143,7 +141,7 @@ class ApiController
     {
         try {
             $model = new OrdenCompraModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getOrdenesCompra($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -155,7 +153,7 @@ class ApiController
     {
         try {
             $model = new ClienteModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getClientes($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -167,7 +165,7 @@ class ApiController
     {
         try {
             $model = new ProveedorModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getProveedores($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -179,8 +177,8 @@ class ApiController
     {
         try {
             $model = new OrigenModel();
-            $idProveedor = $_GET['id'] ?? '';
-            $texto = $_GET['texto'] ?? '';
+            $idProveedor = isset($_GET['id']) ? $_GET['id'] : '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
 
             if ($texto) {
                 $data = $model->getOrigenesByMinaAndProveedor($texto, $idProveedor);
@@ -198,7 +196,7 @@ class ApiController
     {
         try {
             $model = new PilaModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getPilas($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -210,7 +208,7 @@ class ApiController
     {
         try {
             $model = new DestinoModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getDestinos($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -222,7 +220,7 @@ class ApiController
     {
         try {
             $model = new ClaseModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getClases($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -234,7 +232,7 @@ class ApiController
     {
         try {
             $model = new DepartamentoModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getDepartamentos($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -246,8 +244,8 @@ class ApiController
     {
         try {
             $model = new CiudadModel();
-            $idDepartamento = $_GET['id'] ?? '';
-            $texto = $_GET['texto'] ?? '';
+            $idDepartamento = isset($_GET['id']) ? $_GET['id'] : '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
 
             if ($texto) {
                 $data = $model->getCiudadesPorDescripcionYDepartamento($texto, $idDepartamento);
@@ -261,12 +259,11 @@ class ApiController
         }
     }
 
-
     public function unidadesNegocio()
     {
         try {
             $model = new UnidadNegocioModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getUnidadesNegocio($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -278,7 +275,7 @@ class ApiController
     {
         try {
             $model = new ProductoModel();
-            $texto = $_GET['texto'] ?? '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
             $data = $model->getProductos($texto);
             Response::json($data);
         } catch (\Exception $e) {
@@ -290,8 +287,8 @@ class ApiController
     {
         try {
             $model = new ClasificacionModel();
-            $idProducto = $_GET['id'] ?? '';
-            $texto = $_GET['texto'] ?? '';
+            $idProducto = isset($_GET['id']) ? $_GET['id'] : '';
+            $texto = isset($_GET['texto']) ? $_GET['texto'] : '';
 
             if ($texto && $idProducto) {
                 $data = $model->getClasificacionesPorDescripcionYProducto($texto, $idProducto);
